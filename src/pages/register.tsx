@@ -11,13 +11,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
@@ -28,7 +30,6 @@ const Register = () => {
     }
 
     try {
-      // Create a new user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -36,14 +37,14 @@ const Register = () => {
       );
       const user = userCredential.user;
 
-      // Save user data to Firestore
       await setDoc(doc(db, "users", user.uid), {
         name: name,
         email: user.email,
       });
 
       console.log("User registered:", user);
-      // window.location.href = "/";
+
+      navigate("/");
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
         alert(

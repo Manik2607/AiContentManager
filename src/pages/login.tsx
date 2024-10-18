@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
-
 import {
   Card,
   CardHeader,
@@ -12,11 +10,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
@@ -45,9 +45,8 @@ const Login = () => {
       );
       const user = userCredential.user;
       console.log("User signed in:", user);
+      navigate("/");
 
-      // Redirect to home page
-      //   window.location.href = "/";
     } catch (error: any) {
       console.error("Error during sign in:", error);
 

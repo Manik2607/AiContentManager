@@ -3,12 +3,14 @@ import {auth} from "@/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
+  const navigation = useNavigate();
   const logout = () => {
     auth.signOut().then(() => {
-      window.location.href = "/login";
+      navigation("/login");
     });
   };
 
