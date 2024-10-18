@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { storage } from "@/firebase/firebase"; // Adjust the import path as needed
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
+
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -15,8 +16,10 @@ export default function Upload() {
   const handleUpload = (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) return;
+    const folder_name = file.name.split(".")[1].toUpperCase();
+    const storageRef = ref(storage, `${folder_name}/${file.name}`);
+    //get metadata of file
 
-    const storageRef = ref(storage, `uploads/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     setUploading(true);
@@ -34,6 +37,14 @@ export default function Upload() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setDownloadURL(downloadURL);
+      const metadata = {
+        fileName: file.name,
+        uplodedAt: new Date().toISOString(),
+        contentType: file.type,
+        fileExtension: file.name.split(".")[1],
+        downloadURL: downloadURL,
+      };
+      console.log(metadata);
           setUploading(false);
         });
       }

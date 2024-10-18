@@ -46,7 +46,7 @@ function Home() {
         <h1>Home page</h1>
         {userDetails && <h1>Hi, {userDetails.name} you are logged in.</h1>}
         {userDetails && <h1>{userDetails.email}</h1>}
-        {/* <Button onClick={logout}>Logout</Button> */}
+        <Button onClick={logout}>Logout</Button>
       </div>
     </>
   );
