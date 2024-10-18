@@ -5,8 +5,6 @@ import { db } from "@/firebase/firebase";
 
 
 export default function Nav() {
-
-    
   interface UserDetails {
     email: string;
     name: string;
@@ -39,7 +37,7 @@ export default function Nav() {
         <div className="mx-auto px-28">
           <div className="relative flex items-center justify-between h-16">
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-              <h1 className="text-pretty text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-pulse">
+              <h1 className="text-pretty text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-pulse">
                 CMS
               </h1>
               <div className="grow"></div>

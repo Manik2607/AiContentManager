@@ -17,7 +17,7 @@ export default function Upload() {
               <Label htmlFor="file" className="block mb-2">
                 File:
               </Label>
-              <Label className="block mb-2">{file && file.name}</Label>
+              {/* <Label className="block mb-2">{file && file.name}</Label> */}
               <Input
                 id="file"
                 type="file"
