@@ -1,15 +1,26 @@
-
+import Home from './pages/home'
 import './App.css'
-import { Button } from './components/ui/button'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import Login from './pages/login'
+import Register from './pages/register'
+import PageNotFound from './pages/pagenotfound'
+import Upload from './pages/upload'
 
 function App() {
 
+
   return (
     <>
-      <h1>
-        hello world
-      </h1>
-      <Button>click</Button>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/upload" element={<Upload/>} />
+          <Route path="*" element={<PageNotFound/>} />
+        </Routes>
+      </Router>
+
     </>
   )
 }
