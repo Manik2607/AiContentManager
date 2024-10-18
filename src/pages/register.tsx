@@ -57,7 +57,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center w-full flex-grow">
       <Card className="w-96">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold">
@@ -109,10 +109,7 @@ const Register = () => {
           </form>
         </CardContent>
         <CardFooter className="flex items-center justify-between">
-          <Button
-            onClick={handleRegister}
-            className="bg-primary w-28" 
-          >
+          <Button onClick={handleRegister} className="bg-primary w-28">
             Register
           </Button>
           <Link className="text-blue-500" to="/login">
