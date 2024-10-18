@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { auth } from "@/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
-
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 export default function Nav() {
   interface UserDetails {
@@ -42,13 +43,20 @@ export default function Nav() {
               </h1>
               <div className="grow"></div>
               {userDetails ? (
-                <h1>
-                  Hi, {userDetails.name}
-                </h1>
+                <div className="flex items-center justify-center">
+                  <h1 className="text-pretty text-lg text-white font-extrabold ">
+                    Hi, {userDetails.name}
+                  </h1>
+                </div>
               ) : (
-                <a href="/login" className="flex text-blue-500">
+                <Button
+                  className="text-pretty text-lg text-white font-extrabold  bg-gradient-to-r from-purple-400 via-pink-500 to-red-500"
+                  onClick={() => {
+                    window.location.href = "/login";
+                  }}
+                >
                   Login
-                </a>
+                </Button>
               )}
             </div>
           </div>

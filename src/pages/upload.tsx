@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"; // Example import path for Shadcn UI Button
 import { Input } from "@/components/ui/input"; // Example import path for Shadcn UI Input
 import { Label } from "@/components/ui/label"; // Example import path for Shadcn UI Label
 import { Card } from "@/components/ui/card";
-import { storage } from "@/firebase/firebase"; // Adjust the import path as needed
+import { auth, storage } from "@/firebase/firebase"; // Adjust the import path as needed
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { db } from "../firebase/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
+import { useToast } from "@/hooks/use-toast";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
@@ -13,10 +16,35 @@ export default function Upload() {
   const [error, setError] = useState<string | null>(null);
   const [downloadURL, setDownloadURL] = useState<string | null>(null);
 
+  const {toast} = useToast();
+
+  //user details
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        console.log(user);
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserDetails({
+            email: docSnap.data().email,
+            name: docSnap.data().name,
+          });
+          console.log("userDetails");
+          console.log(userDetails);
+        } else {
+          console.log("No such document!");
+        }
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   const handleUpload = (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) return;
-    const folder_name = file.name.split(".")[1].toUpperCase();
+    const folder_name = (file.name.split(".").at(-1) || "").toUpperCase();
     const storageRef = ref(storage, `${folder_name}/${file.name}`);
     //get metadata of file
 
@@ -35,21 +63,46 @@ export default function Upload() {
         setUploading(false);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setDownloadURL(downloadURL);
-      const metadata = {
-        fileName: file.name,
-        uplodedAt: new Date().toISOString(),
-        contentType: file.type,
-        fileExtension: file.name.split(".")[1],
-        downloadURL: downloadURL,
-      };
-      console.log(metadata);
+          const metadata = {
+            fileName: file.name,
+            uplodedAt: new Date().toISOString(),
+            contentType: file.type,
+            fileExtension: file.name.split(".").at(-1),
+            downloadURL: downloadURL,
+            user: userDetails,
+          };
+          if (metadata.fileExtension) {
+            setDoc(doc(db, "files", metadata.fileExtension.toUpperCase()), metadata)
+              .then(() => {
+                console.log("Document written with ID: ", metadata.contentType);
+              })
+              .catch((error) => {
+                console.error("Error adding document: ", error);
+              });
+          } else {
+            console.error("File extension is undefined");
+          }
+          console.log(metadata);
           setUploading(false);
         });
       }
     );
   };
+
+  useEffect(() => {
+    if (downloadURL) {
+        toast({
+          title: "File uploaded successfully!",
+          description: "You can download the file from My Files page.",
+        });    }
+  }, [downloadURL]);
+
+  interface UserDetails {
+    email: string;
+    name: string;
+  }
 
   return (
     <>

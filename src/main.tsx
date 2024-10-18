@@ -5,9 +5,9 @@ import './index.css'
 import { ThemeProvider } from './components/theme-provider.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <App />
     </ThemeProvider>
-  </StrictMode>,
+  /* </StrictMode> */
 )
