@@ -4,8 +4,15 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+
 
 export default function Nav() {
+  const logout = () => {
+    auth.signOut().then(() => {
+      window.location.href = "/login" ;
+    });
+  };
   interface UserDetails {
     email: string;
     name: string;
@@ -44,9 +51,25 @@ export default function Nav() {
               <div className="grow"></div>
               {userDetails ? (
                 <div className="flex items-center justify-center">
-                  <h1 className="text-pretty text-lg text-white font-extrabold ">
-                    Hi, {userDetails.name}
-                  </h1>
+                  <Popover>
+                    <PopoverTrigger>
+                      <h1 className="text-pretty text-lg text-white font-extrabold ">
+                        Hi, {userDetails.name}
+                      </h1>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <div className="flex flex-col p-2 bg-card rounded-xl p-5">
+                        <h1 className="text-pretty  text-white ">
+                          {userDetails.name}
+                        </h1>
+                        <h1 className="text-pretty  text-white ">
+                          {userDetails.email}
+                        </h1>
+                        <div className="h-6"></div>
+                        <Button onClick={logout}>Logout</Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               ) : (
                 <Button
