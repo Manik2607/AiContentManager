@@ -11,6 +11,7 @@ import FilesPage from './pages/files'
 import { Toaster } from './components/ui/toaster'
 import { useState } from 'react'
 import GetStarted from './landing'
+import Search from './pages/search'
 
 function App() {
   const [show,setShow] = useState(false);
@@ -33,6 +34,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/files" element={<FilesPage />} />
+              <Route path="/search" element={<Search />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </Router>

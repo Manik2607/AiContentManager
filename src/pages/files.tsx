@@ -40,9 +40,11 @@ const FilesPage: React.FC = () => {
         const loadFiles = async () => {
             setLoading(true);
             await Promise.all([
-                fetchFiles("PDF", setPdfFiles),
-                fetchFiles("PPTX", setPptxFiles),
-                fetchFiles("JPG", setImageFiles),
+              fetchFiles("PDF", setPdfFiles),
+              fetchFiles("PPTX", setPptxFiles),
+              fetchFiles("JPG", setImageFiles),
+              fetchFiles("PNG", setImageFiles),
+              fetchFiles("JPEG", setImageFiles),
             ]);
             setLoading(false);
         };
@@ -143,7 +145,7 @@ const FilesPage: React.FC = () => {
           </TabsContent>
           <TabsContent value="images">
             <ScrollArea className="max-h-[80vh] p-4 border rounded-lg">
-              <Card className="p-6">
+              <Card className="p-6 bg-background">
                 <h2 className="text-2xl font-bold mb-4">Image Files</h2>
                 <ul>
                   {imageFiles.length > 0 ? (
@@ -152,7 +154,9 @@ const FilesPage: React.FC = () => {
                         <div className="flex justify-between items-center">
                           <span>{file.name}</span>
                           <div>
-                            <Button onClick={() => window.open(file.url)}>
+                            <Button
+                              onClick={() => window.open(file.url)}
+                            >
                               View
                             </Button>
                             <Button
