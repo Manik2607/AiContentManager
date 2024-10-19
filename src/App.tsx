@@ -9,8 +9,15 @@ import Nav from './pages/components/nav'
 import SideNav from './pages/components/sidenav'
 import FilesPage from './pages/files'
 import { Toaster } from './components/ui/toaster'
+import { useState } from 'react'
+import GetStarted from './landing'
 
 function App() {
+  const [show,setShow] = useState(false);
+
+  if (!show) {
+    return <GetStarted setShow={setShow} />;
+  }
 
 
   return (

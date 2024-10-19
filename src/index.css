@@ -58,3 +58,13 @@
     @apply bg-background text-foreground;
   }
 }
+.aa{
+  color:#ff004c;
+}
+.bb{
+  color: #ffffff;
+}
+.cc{
+  color: #0099ff;
+}
+/* background: linear-gradient(115deg, , ,); */
