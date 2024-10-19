@@ -21,17 +21,14 @@ const Register = () => {
   const navigate = useNavigate();
   const {toast} = useToast();
 
-  // Email validation: contains @ symbol
-  const validateEmail = (email: string) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
+  
 
-  // Password validation: at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character
-  const validatePassword = (password: string) => {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/;
-    return passwordPattern.test(password);
-  };
+ // Password validation: at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character (any special character)
+const validatePassword = (password: string) => {
+  const passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+  return passwordPattern.test(password);
+};
 
   // Handle registration logic
   const handleRegister = async (e: any) => {
