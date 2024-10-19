@@ -9,6 +9,7 @@ import { db } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
@@ -104,43 +105,58 @@ export default function Upload() {
     name: string;
   }
 
-  return (
-    <>
+  if (!userDetails) {
+    return (
       <div className="flex flex-col items-center justify-center w-full flex-grow">
         <Card className="w-96 p-10">
           <h2 className="text-2xl font-bold mb-4">Upload</h2>
-          <form className="w-full" onSubmit={handleUpload}>
-            <div className="mb-4">
-              <Label htmlFor="file" className="block mb-2">
-                File:
-              </Label>
-              <Input
-                id="file"
-                type="file"
-                className="w-full"
-                required
-                onChange={(e: any) => setFile(e.target.files[0])}
-              />
-            </div>
-            <div className="flex">
-              <Button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700"
-                disabled={uploading}
-              >
-                {uploading ? "Uploading..." : "Upload"}
-              </Button>
-              <div className="flex-grow"></div>
-            </div>
-          </form>
-          {error && <p className="text-red-500 mt-4">{error}</p>}
-          {downloadURL && (
-            <p className="text-green-500 mt-4">
-              File uploaded successfully! <a href={downloadURL}>Download</a>
-            </p>
-          )}
+          <p className="text-red-500 pb-3">You must be signed in to upload files.</p>
+          <Link to="/login" className="text-blue-500 hover:underline">Login now</Link>
+          <p className="pt-3">Don't have an account?</p>
+          <Link to="/register" className="text-blue-500 hover:underline">Register now</Link>
         </Card>
       </div>
-    </>
-  );
+    );
+  }
+
+    return (
+      <>
+        <div className="flex flex-col items-center justify-center w-full flex-grow">
+          <Card className="w-96 p-10">
+            <h2 className="text-2xl font-bold mb-4">Upload</h2>
+            <form className="w-full" onSubmit={handleUpload}>
+              <div className="mb-4">
+                <Label htmlFor="file" className="block mb-2">
+                  File:
+                </Label>
+                <Input
+                  id="file"
+                  type="file"
+                  className="w-full"
+                  required
+                  onChange={(e: any) => setFile(e.target.files[0])}
+                />
+              </div>
+              <div className="flex">
+                <Button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700"
+                  disabled={uploading}
+                >
+                  {uploading ? "Uploading..." : "Upload"}
+                </Button>
+                <div className="flex-grow"></div>
+              </div>
+            </form>
+            {error && <p className="text-red-500 mt-4">{error}</p>}
+            {downloadURL && (
+              <p className="text-green-500 mt-4">
+                File uploaded successfully! <a href={downloadURL}>Download</a>
+              </p>
+            )}
+          </Card>
+        </div>
+      </>
+    );
+  
 }
