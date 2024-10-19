@@ -73,9 +73,10 @@ export default function Upload() {
             downloadURL: downloadURL,
             user: userDetails,
           };
-          if (metadata.fileExtension) {
+          if (metadata.fileName) {
             await setDoc(
-              doc(db, "files", metadata.fileExtension.toUpperCase()),
+              //add a unique id to the document
+              doc(db, "files", metadata.fileName),
               metadata
             );
           }

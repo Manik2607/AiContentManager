@@ -1,3 +1,4 @@
+import { File, Folder, Home, Mail, Trash, Upload } from "lucide-react";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -15,25 +16,37 @@ const SideNav: React.FC = () => {
           to="/"
           className={({ isActive }) => (isActive ? active_btn : btn)}
         >
-          Home
+          <div className="flex justify-start mx-3">
+            <Home />
+            <h1 className="ml-2">Home</h1>
+          </div>
         </NavLink>
         <NavLink
           to="/upload"
           className={({ isActive }) => (isActive ? active_btn : btn)}
         >
-          Upload
+          <div className="flex justify-start mx-3">
+            <Upload />
+            <h1 className="ml-2">Upload</h1>
+          </div>
         </NavLink>
         <NavLink
           to="/files"
           className={({ isActive }) => (isActive ? active_btn : btn)}
         >
-          My Files
+          <div className="flex justify-start mx-3">
+            <Folder />
+            <h1 className="ml-2">My Files</h1>
+          </div>
         </NavLink>
         <NavLink
           to="/bin"
           className={({ isActive }) => (isActive ? active_btn : btn)}
         >
-          Bin
+          <div className="flex justify-start mx-3">
+            <Trash />
+            <h1 className="ml-2">Bin</h1>
+          </div>
         </NavLink>
       </div>
     </div>
