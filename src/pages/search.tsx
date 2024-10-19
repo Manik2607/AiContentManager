@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card"; // Shadcn UI card for grouping files
 import { ScrollArea } from "@/components/ui/scroll-area"; // Shadcn UI scroll area
+import { Download } from "lucide-react";
 
 interface FileItem {
   id: string;
@@ -55,9 +56,11 @@ export default function Search() {
         <div className="flex mb-6">
           <Input
             type="text"
+            placeholder="Search by file name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="mr-4"
+            onSubmit={handleSearch}
           />
           <Button onClick={handleSearch} type="submit">
             Search
@@ -73,8 +76,12 @@ export default function Search() {
                     <div className="flex justify-between items-center">
                       <span>{file.fileName}</span>
                       <div>
-                        <Button onClick={() => window.open(file.downloadURL)}>
-                          View
+                        <Button
+                          className="bg-green-500 mx-2 text-white hover:bg-green-600"
+                          onClick={() => window.open(file.downloadURL)}
+                        >
+                          <Download size={24} />
+                          Download
                         </Button>
                       </div>
                     </div>

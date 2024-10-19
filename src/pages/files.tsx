@@ -44,7 +44,11 @@ const FilesPage: React.FC = () => {
       await Promise.all([
         fetchFiles("PDF", setPdfFiles),
         fetchFiles("PPTX", setPptxFiles),
+        fetchFiles("PPT", setPptxFiles),
         fetchFiles("JPG", setImageFiles),
+        fetchFiles("JPGE", setImageFiles),
+        fetchFiles("PNG", setImageFiles),
+        fetchFiles("WEBP", setImageFiles),
       ]);
       setLoading(false);
     };
