@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -20,6 +21,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
+
+  const {toast} = useToast();
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
@@ -41,17 +44,22 @@ const Register = () => {
         name: name,
         email: user.email,
       });
-
-      console.log("User registered:", user);
-
       navigate("/");
+      
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
-        alert(
-          "Email is already in use. Please use a different email or log in."
-        );
+        toast({
+          variant: "destructive",
+          title: "ERROR:",
+          description:
+            "Email is already in use. Please use a different email or log in.",
+        });
       } else {
-        alert(error.message);
+        toast({
+              variant: "destructive",
+              title: "ERROR:",
+              description: error.message,
+        });
       }
     }
   };

@@ -3,14 +3,18 @@ import { auth } from "@/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Nav() {
   const logout = () => {
+
     auth.signOut().then(() => {
-      window.location.href = "/login" ;
+      // const navigate = useNavigate();
+      // navigate("/login");
+      window.location.href = "/login";
     });
   };
   interface UserDetails {
@@ -74,9 +78,7 @@ export default function Nav() {
               ) : (
                 <Button
                   className="text-pretty text-lg text-white font-extrabold  bg-gradient-to-r from-purple-400 via-pink-500 to-red-500"
-                  onClick={() => {
-                    window.location.href = "/login";
-                  }}
+                  onClick={logout}
                 >
                   Login
                 </Button>

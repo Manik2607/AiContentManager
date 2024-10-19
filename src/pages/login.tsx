@@ -11,10 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const {toast} = useToast();
 
   const navigate = useNavigate();
 
@@ -30,7 +33,11 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Please provide both email and password.");
+      toast({
+        variant: "destructive",
+        title: "ERROR:",
+        description: "Please provide both email and password.",
+      });
       return;
     }
 
@@ -45,6 +52,10 @@ const Login = () => {
       );
       const user = userCredential.user;
       console.log("User signed in:", user);
+      toast({
+        title: "User signed in Successfully",
+        description: "You can now manage the content.",
+      });
       navigate("/");
 
     } catch (error: any) {
@@ -52,16 +63,28 @@ const Login = () => {
 
       switch (error.code) {
         case "auth/user-not-found":
-          alert("No user found with this email.");
+          toast({
+            title: "Email not found",
+            description: "No user found with this email.",
+          });
           break;
         case "auth/wrong-password":
-          alert("Incorrect password.");
+          toast({
+            title: "Incorrect password",
+            description: "Please try again.",
+          });
           break;
         case "auth/invalid-email":
-          alert("Invalid email format.");
+          toast({
+            title: "Invalid email format",
+            description: "Please use Gmail or Yahoo email.",
+          });
           break;
-        default:
-          alert("Login failed. " + error.message);
+          default:
+            toast({
+              title: "ERROR:",
+              description: error.message,
+            });
       }
     }
   };

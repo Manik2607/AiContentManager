@@ -110,10 +110,18 @@ export default function Upload() {
       <div className="flex flex-col items-center justify-center w-full flex-grow">
         <Card className="w-96 p-10">
           <h2 className="text-2xl font-bold mb-4">Upload</h2>
-          <p className="text-red-500 pb-3">You must be signed in to upload files.</p>
-          <Link to="/login" className="text-blue-500 hover:underline">Login now</Link>
-          <p className="pt-3">Don't have an account?</p>
-          <Link to="/register" className="text-blue-500 hover:underline">Register now</Link>
+          <p className="text-red-500 pb-3">
+            You must be signed in to upload files.
+          </p>
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login now
+          </Link>
+          <div className="flex mt-3">
+            <p className="mr-8">Don't have an account?</p>
+            <Link to="/register" className="text-blue-500 hover:underline ">
+              Register now
+            </Link>
+          </div>
         </Card>
       </div>
     );
