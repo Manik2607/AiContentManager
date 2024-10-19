@@ -19,16 +19,19 @@ const Register = () => {
   const [passwordMatch, setPasswordMatch] = useState(true);
 
   const navigate = useNavigate();
-  const {toast} = useToast();
+  const { toast } = useToast();
 
-  
-
- // Password validation: at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character (any special character)
-const validatePassword = (password: string) => {
-  const passwordPattern =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
-  return passwordPattern.test(password);
-};
+  // Password validation: at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character (any special character)
+  const validatePassword = (password: string) => {
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+    return passwordPattern.test(password);
+  };
+  // Email validation: contains @ symbol
+  const validateEmail = (email: string) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   // Handle registration logic
   const handleRegister = async (e: any) => {
@@ -46,7 +49,11 @@ const validatePassword = (password: string) => {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       // Store user details in Firestore
@@ -62,7 +69,8 @@ const validatePassword = (password: string) => {
         toast({
           variant: "destructive",
           title: "ERROR:",
-          description: "Email is already in use. Please use a different email or log in.",
+          description:
+            "Email is already in use. Please use a different email or log in.",
         });
       } else {
         toast({
@@ -78,7 +86,9 @@ const validatePassword = (password: string) => {
     <div className="flex flex-col items-center justify-center w-full flex-grow">
       <Card className="w-96">
         <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">Register</CardTitle>
+          <CardTitle className="text-center text-2xl font-bold">
+            Register
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister}>
@@ -104,7 +114,11 @@ const validatePassword = (password: string) => {
                 }}
                 required
               />
-              {!validEmail && <p className="text-red-500">Please enter a valid email address.</p>}
+              {!validEmail && (
+                <p className="text-red-500">
+                  Please enter a valid email address.
+                </p>
+              )}
             </div>
             <div className="mb-4">
               <label>Password</label>
@@ -120,7 +134,8 @@ const validatePassword = (password: string) => {
               />
               {!validPassword && (
                 <p className="text-red-500">
-                  Password must be at least 8 characters, contain 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character.
+                  Password must be at least 8 characters, contain 1 uppercase
+                  letter, 1 lowercase letter, 1 digit, and 1 special character.
                 </p>
               )}
               {validPassword && (
@@ -136,12 +151,18 @@ const validatePassword = (password: string) => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-              {!passwordMatch && <p className="text-red-500">Passwords do not match.</p>}
+              {!passwordMatch && (
+                <p className="text-red-500">Passwords do not match.</p>
+              )}
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex items-center justify-between">
-          <Button type="submit" onClick={handleRegister} className="bg-primary w-28">
+          <Button
+            type="submit"
+            onClick={handleRegister}
+            className="bg-primary w-28"
+          >
             Register
           </Button>
           <Link className="text-blue-500" to="/login">
