@@ -1,4 +1,4 @@
-import { File, Folder, Home, Mail, Search, Trash, Upload } from "lucide-react";
+import { Bug, File, Folder, Home, Mail, Search, Trash, Upload } from "lucide-react";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const SideNav: React.FC = () => {
       "text-center p-2 mx-2 hover:bg-gray-500 rounded-full font-bold";
   return (
     <div className="bg-secondary w-1/4 flex-grow">
-      <div className="flex flex-col ">
+      <div className="flex flex-col h-full py-2">
         <div className="h-10 font-extrabold"></div>
         <NavLink
           to="/"
@@ -57,6 +57,16 @@ const SideNav: React.FC = () => {
             <h1 className="ml-2">Bin</h1>
           </div>
         </NavLink>
+        <div className="flex-grow"></div>
+        <a
+          href="https://github.com/Manik2607/AiContentManager/issues"
+          className={btn}
+        >
+          <div className="flex justify-start mx-3">
+            <Bug />
+            <h1 className="ml-2">Report Bug</h1>
+          </div>
+        </a>
       </div>
     </div>
   );

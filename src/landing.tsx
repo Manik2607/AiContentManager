@@ -1,13 +1,9 @@
-// GetStarted.tsx
-import React, { useState } from 'react';
-import './GetStarted.css'; // Import the CSS file
-import App from './App';
 
-    interface GetStartedProps {
-        setShow: (show: boolean) => void; // Define the prop type for setShow
-    }
+import './GetStarted.css'; // Import the CSS file
+// import App from './App';
+
   
-  const GetStarted: React.FC<GetStartedProps> = ({ setShow }) => {
+  const GetStarted: React.FC = () => {
   
     return (
     <div className="container">
@@ -16,19 +12,19 @@ import App from './App';
         <h1 className="title">Welcome to Your Content Management System</h1>
       </div>
       {/* Hero Section */}
-      <div className="hero">
+      {/* <div className="hero">
         <img
           src="https://images.pexels.com/photos/5642754/pexels-photo-5642754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="CMS Hero"
           className="hero-image"
         />
-      </div>
+      </div> */}
       <div className="main-content">
         <p className="description">
           Manage your content with ease. Upload, organize, and control your assets effortlessly. Whether you're a creator, publisher, or business owner, our CMS provides you with the tools to stay ahead in the content game.
         </p>
 
-        <button onClick={()=>{setShow(true)}} className="get-started-button">
+        <button className="get-started-button">
           Get Started
         </button>
       </div>

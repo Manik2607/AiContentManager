@@ -6,19 +6,43 @@ import { Card } from "@/components/ui/card"; // Shadcn UI card for grouping file
 import { ScrollArea } from "@/components/ui/scroll-area"; // Shadcn UI scroll area
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input"; // Shadcn UI input for search bar
+import { Download, File } from "lucide-react";
 
+import { db } from "../firebase/firebase";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 interface FileItem {
   id: string;
   name: string;
   url: string;
+  timestamp: string;
 }
 
 const FilesPage: React.FC = () => {
+
   const [pdfFiles, setPdfFiles] = useState<FileItem[]>([]);
   const [pptxFiles, setPptxFiles] = useState<FileItem[]>([]);
   const [imageFiles, setImageFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>(""); // Add search state
+
+  const [deletedFiles, setDeletedFiles] = useState<FileItem[]>([]);
+
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString(); // Formats date as readable string
+  };
+  useEffect(() => {
+    const fetchDeletedFiles = async () => {
+      const querySnapshot = await getDocs(collection(db, "deleted"));
+      const files: FileItem[] = [];
+      querySnapshot.forEach((doc) => {
+        files.push({ id: doc.id, ...doc.data() } as FileItem);
+      });
+      setDeletedFiles(files);
+    };
+
+    fetchDeletedFiles();
+  }, []);
 
   useEffect(() => {
     const fetchFiles = async (
@@ -62,10 +86,15 @@ const FilesPage: React.FC = () => {
     setFiles: React.Dispatch<React.SetStateAction<FileItem[]>>
   ) => {
     try {
+      // Delete the file from storage
       const folderName = file.name.split(".").at(-1)?.toUpperCase();
       const fileRef = ref(storage, `${folderName}/${file.name}`);
       await deleteObject(fileRef);
+
       setFiles((prevFiles) => prevFiles.filter((f) => f.id !== file.id));
+      // Add the deleted file in db in firebase
+      //add a unique id to the document
+      await setDoc(doc(db, "deleted", file.name), file);
     } catch (error) {
       console.error(`Error deleting file ${file.name}: `, error);
     }
@@ -84,6 +113,7 @@ const FilesPage: React.FC = () => {
     files.filter((file) =>
       file.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    console.log(pdfFiles);
 
   return (
     <div className="w-full h-full p-10">
@@ -112,12 +142,25 @@ const FilesPage: React.FC = () => {
               <ul>
                 {filterFiles(pdfFiles).length > 0 ? (
                   filterFiles(pdfFiles).map((file) => (
-                    <li key={file.id} className="mb-4">
+                    <li
+                      key={file.id}
+                      className="mb-1 bg-secondary rounded-lg p-2"
+                    >
                       <div className="flex justify-between items-center">
-                        <span>{file.name}</span>
-                        <div>
-                          <Button onClick={() => window.open(file.url)}>
-                            View
+                        <div className="flex">
+                          <File className="mx-2" />
+                          <span>{file.name}</span>
+                        </div>
+                        <div className="flex">
+                          <p className="text-sm text-gray-500 m-auto px-10">
+                            20/10/2024
+                          </p>
+                          <Button
+                            className="bg-green-500 mx-1 text-white hover:bg-green-600"
+                            onClick={() => window.open(file.url)}
+                          >
+                            <Download size={24} />
+                            Download
                           </Button>
                           <Button
                             variant="destructive"
@@ -145,12 +188,25 @@ const FilesPage: React.FC = () => {
               <ul>
                 {filterFiles(pptxFiles).length > 0 ? (
                   filterFiles(pptxFiles).map((file) => (
-                    <li key={file.id} className="mb-4">
+                    <li
+                      key={file.id}
+                      className="mb-1 bg-secondary rounded-lg p-2"
+                    >
                       <div className="flex justify-between items-center">
-                        <span>{file.name}</span>
-                        <div>
-                          <Button onClick={() => window.open(file.url)}>
-                            View
+                        <div className="flex">
+                          <File className="mx-2" />
+                          <span>{file.name}</span>
+                        </div>
+                        <div className="flex">
+                          <p className="text-sm text-gray-500 m-auto px-10">
+                            19/10/2024
+                          </p>
+                          <Button
+                            className="bg-green-500 mx-1 text-white hover:bg-green-600"
+                            onClick={() => window.open(file.url)}
+                          >
+                            <Download size={24} />
+                            Download
                           </Button>
                           <Button
                             variant="destructive"
@@ -178,12 +234,25 @@ const FilesPage: React.FC = () => {
               <ul>
                 {filterFiles(imageFiles).length > 0 ? (
                   filterFiles(imageFiles).map((file) => (
-                    <li key={file.id} className="mb-4">
+                    <li
+                      key={file.id}
+                      className="mb-1 bg-secondary rounded-lg p-2"
+                    >
                       <div className="flex justify-between items-center">
-                        <span>{file.name}</span>
-                        <div>
-                          <Button onClick={() => window.open(file.url)}>
-                            View
+                        <div className="flex">
+                          <File className="mx-2" />
+                          <span>{file.name}</span>
+                        </div>
+                        <div className="flex">
+                          <p className="text-sm text-gray-500 m-auto px-10">
+                            19/10/2024
+                          </p>
+                          <Button
+                            className="bg-green-500 mx-1 text-white hover:bg-green-600"
+                            onClick={() => window.open(file.url)}
+                          >
+                            <Download size={24} />
+                            Download
                           </Button>
                           <Button
                             variant="destructive"

@@ -9,6 +9,17 @@ import { useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface FileItem {
   id: string;
@@ -22,21 +33,24 @@ const BinPage: React.FC = () => {
   // Dummy data for deleted files
   // await setDoc(doc(db, "deleted", file.name),file);
 
-const [deletedFiles, setDeletedFiles] = useState<FileItem[]>([]);
+  const [deletedFiles, setDeletedFiles] = useState<FileItem[]>([]);
 
-useEffect(() => {
+  const showData = () => {
+    console.log("Data");
+  };
+
+  useEffect(() => {
     const fetchDeletedFiles = async () => {
-        const querySnapshot = await getDocs(collection(db, "deleted"));
-        const files: FileItem[] = [];
-        querySnapshot.forEach((doc) => {
-            files.push({ id: doc.id, ...doc.data() } as FileItem);
-        });
-        setDeletedFiles(files);
+      const querySnapshot = await getDocs(collection(db, "deleted"));
+      const files: FileItem[] = [];
+      querySnapshot.forEach((doc) => {
+        files.push({ id: doc.id, ...doc.data() } as FileItem);
+      });
+      setDeletedFiles(files);
     };
 
     fetchDeletedFiles();
-}, []);
-
+  }, []);
 
   // Filter function for searching files
   const filterFiles = (files: FileItem[]) =>
@@ -86,12 +100,28 @@ useEffect(() => {
                             <Download size={24} />
                             Download
                           </Button>
-                          <Button className="bg-blue-500 mx-1 text-white hover:bg-blue-600">
-                            Restore
-                          </Button>
-                          <Button variant="destructive">
+                          {/* <Button variant="destructive">
                             Delete Permanently
-                          </Button>
+                          </Button> */}
+                          <AlertDialog>
+                            <AlertDialogTrigger className="bg-blue-500 mx-1 text-white hover:bg-blue-600 rounded-sm px-3">
+                              View Data
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  File Details
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  <p>File Name: {file.name}</p>
+                                  <p>File URL: {file.url}</p>
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Back</AlertDialogCancel>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     </li>

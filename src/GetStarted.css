@@ -54,7 +54,7 @@ body {
 }
 
 .description {
-    font-size: 1.25rem; /* Slightly larger size */
+    font-size: 1.1rem; /* Slightly larger size */
     color: #e0e0e0; /* Light gray text */
     max-width: 40rem;
     margin: 0 auto 2rem;
@@ -83,10 +83,10 @@ body {
 }
 
 .features {
-    margin-top: 4rem;
+    margin-top: 2rem;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
+    gap: 1rem;
     opacity: 0; /* Start invisible */
     animation: fadeInUp 1s ease-in-out forwards; /* Fade in the features container */
     animation-delay: 0.2s; /* Delay for staggered appearance */
@@ -129,7 +129,7 @@ body {
 }
 
 .feature-title {
-    font-size: 1.75rem; /* Slightly larger for emphasis */
+    font-size: 1.5rem; /* Slightly larger for emphasis */
     font-weight: 600;
     color: #4a4a4a; /* Dark gray */
     margin-bottom: 1rem;
@@ -138,7 +138,7 @@ body {
 
 .feature-description {
     color: #606060; /* Gray text */
-    line-height: 1.4; /* Better line spacing */
+    line-height: 1.2; /* Better line spacing */
 }
 
 /* Responsive Title */
